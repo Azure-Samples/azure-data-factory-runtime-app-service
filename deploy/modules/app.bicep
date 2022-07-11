@@ -140,11 +140,6 @@ resource app 'Microsoft.Web/sites@2021-03-01' = {
           value: 'Off'
         }
         {
-          // Resolve DNS requests by using the private DNS zone on the VNet.
-          name: 'WEBSITE_DNS_SERVER'
-          value: '168.63.129.16'
-        }
-        {
           // The authentication key to use when connecting to Azure Data Factory.
           name: 'AUTH_KEY'
           value: dataFactoryAuthKey

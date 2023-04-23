@@ -19,6 +19,12 @@ param appServicePlanSku object = {
   capacity: 1
 }
 
+@description('The port for nodes remote access.')
+param irNodeRemoteAccessPort int = 8060
+
+@description('The expiration time of the offline nodes in seconds. The value should not be less than 600.')
+param irNodeExpirationTime int = 600
+
 @description('The name of the SKU to use when creating the virtual machine.')
 param vmSize string = 'Standard_DS1_v2'
 
@@ -114,6 +120,8 @@ module app 'modules/app.bicep' = {
     containerImageTag: acr.outputs.containerImageTag
     dataFactoryName: adf.outputs.dataFactoryName
     dataFactoryIntegrationRuntimeName: adf.outputs.integrationRuntimeName
+    irNodeRemoteAccessPort: irNodeRemoteAccessPort
+    irNodeExpirationTime: irNodeExpirationTime
     appServicePlanSku: appServicePlanSku
   }
 }

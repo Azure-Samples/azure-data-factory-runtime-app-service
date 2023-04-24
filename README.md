@@ -42,8 +42,10 @@ Next, initiate the deployment of the Bicep file. The only mandatory parameter is
 az deployment group create \
   --resource-group SHIR \
   --template-file deploy/main.bicep \
-  --parameters 'vmAdminPassword=<YOUR-VM-ADMIN-PASSWORD>'
+  --parameters 'vmAdminPassword=<YOUR-VM-ADMIN-PASSWORD>' ['irNodeExpirationTime=<TIME-IN-SECONDS>']
 ```
+
+where the optional parameter `irNodeExpirationTime` specifies the time in seconds when the offline nodes expire after App Service stops or restarts. The expired nodes will be removed automatically during next restarting. The minimum expiration time, as well as the default value, is 600 seconds (10 minute).
 
 The deployment takes approximately 30-45 minutes to complete. The majority of this time is the step to build the container image within Azure Container Registry.
 

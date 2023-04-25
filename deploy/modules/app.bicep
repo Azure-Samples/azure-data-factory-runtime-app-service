@@ -37,6 +37,12 @@ param dataFactoryIntegrationRuntimeName string
 @description('The name of the node to create for the self-hosted integration runtime.')
 param dataFactoryIntegrationRuntimeNodeName string = 'AppServiceContainer'
 
+@description('The port for nodes remote access.')
+param irNodeRemoteAccessPort int
+
+@description('The expiration time of offline nodes in seconds. The value should not be less than 600.')
+param irNodeExpirationTime int
+
 var managedIdentityName = 'SampleApp'
 
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2021-06-01-preview' existing = {
@@ -148,6 +154,22 @@ resource app 'Microsoft.Web/sites@2021-03-01' = {
           // The name of the node to create for the self-hosted integration runtime.
           name: 'NODE_NAME'
           value: dataFactoryIntegrationRuntimeNodeName
+        }
+        {
+          name: 'ENABLE_HA'
+          value: 'true'
+        }
+        {
+          name: 'HA_PORT'
+          value: '${irNodeRemoteAccessPort}'
+        }
+        {
+          name: 'ENABLE_AE'
+          value: 'true'
+        }
+        {
+          name: 'AE_TIME'
+          value: '${irNodeExpirationTime}'
         }
       ]
       // Use a user-assigned managed identity to connect to the container registry. (We still need the DOCKER_REGISTRY_SERVER_* settings in the appSettings array, though.)
